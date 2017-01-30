@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage 
+	xmlns="http://xamarin.com/schemas/2014/forms" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+	x:Class="SaveTheBill.Free.BillDetailPage"
+	Title="Quittung">
+	<ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="Save_OnClicked" Icon="save.png" />
+    </ContentPage.ToolbarItems>
+	<ContentPage.Content>
+		<StackLayout Orientation="Vertical" Padding="20" Spacing="20">
+			<StackLayout Orientation="Horizontal">
+				<Entry x:Name="TitleEntry" Placeholder="Bezeichnung" Keyboard="Chat" HorizontalOptions="FillAndExpand"/>
+				<Image x:Name="TitleValid" IsVisible="false" Source="notValid.png" HorizontalOptions="End"/>
+			</StackLayout>
+			<StackLayout Orientation="Horizontal">
+				<Entry x:Name="AmountEntry" Placeholder="Betrag (X.XX)" Keyboard="Numeric" HorizontalOptions="FillAndExpand"/>
+				<Image x:Name="AmountVaild" IsVisible="false" Source="notValid.png" HorizontalOptions="End"/>
+			</StackLayout>
+			 <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="Garantie: " />
+                        <Switch x:Name="GuaranteeSwitch" PropertyChanged="GuaranteeSwitch_OnPropertyChanged" />
+                    </StackLayout>
+                    <StackLayout x:Name="GuaranteeDatePickerStackLayout" Orientation="Vertical">
+                        <Label Text="Gültig bis: " />
+                        <DatePicker VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}"
+                                    x:Name="GuaranteeDatePicker">
+                            <DatePicker.Format>dd.MM.yyyy</DatePicker.Format>
+                        </DatePicker>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+			<Entry x:Name="LocationEntry" Placeholder="Ort" Keyboard="Chat" HorizontalOptions="FillAndExpand" />
+			<StackLayout VerticalOptions="Start">
+                <Label Text="Kaufdatum: " />
+                <DatePicker x:Name="BuyDateEntry" VerticalOptions="FillAndExpand" Date="{x:Static sys:DateTime.Now}">
+                    <DatePicker.Format>dd.MM.yyyy</DatePicker.Format>
+                </DatePicker>
+            </StackLayout>
+            <Entry x:Name="DetailEntry" Placeholder="Weiteres" HeightRequest="50" />
+            <StackLayout Orientation="Vertical">
+                <Image Aspect="AspectFit" x:Name="ImageEntry" PropertyChanged="Image_OnPropertyChanged" />
+                <Button Image="photo.png" x:Name="PhotoButton" Clicked="AddPhoto_OnClicked" />
+            </StackLayout>
+
+		</StackLayout>
+	</ContentPage.Content>
+</ContentPage>
