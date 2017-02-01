@@ -1,15 +1,17 @@
 ﻿using System;
+using SaveTheBill.Free.Model;
+using SaveTheBill.Free.ViewModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
-namespace SaveTheBill.Free
+namespace SaveTheBill.Free.View
 {
 	public partial class HomePage : ContentPage
 	{
+	    private readonly HomePageViewModel _viewModel;
 		public HomePage()
 		{
 			InitializeComponent();
-			BindingContext = new HomePageViewModel();
+			BindingContext = _viewModel = new HomePageViewModel();
 			EntriesListView.Footer = string.Empty;
 		}
 
@@ -30,5 +32,27 @@ namespace SaveTheBill.Free
 			if (result != null)
 				Navigation.PushAsync(new BillDetailPage());
 		}
-	}
+
+        private void Delete_OnClicked(object sender, EventArgs e)
+        {
+            var mi = (MenuItem)sender;
+
+            if (mi == null) return;
+
+            var item = (Bill)mi.CommandParameter;
+
+            _viewModel.DeleteEntry(item);
+        }
+
+        private void Share_OnClicked(object sender, EventArgs e)
+        {
+            var mi = (MenuItem)sender;
+
+            if (mi == null) return;
+
+            var item = (Bill)mi.CommandParameter;
+
+            _viewModel.SendEmail(item);
+        }
+    }
 }

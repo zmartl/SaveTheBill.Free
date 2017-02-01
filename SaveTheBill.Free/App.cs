@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using SaveTheBill.Free.View;
+using Xamarin.Forms;
 
 namespace SaveTheBill.Free
 {

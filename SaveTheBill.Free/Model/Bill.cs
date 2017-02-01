@@ -1,7 +1,7 @@
 ﻿using System;
 using Realms;
 
-namespace SaveTheBill.Free
+namespace SaveTheBill.Free.Model
 {
 	public class Bill : RealmObject
 	{

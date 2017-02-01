@@ -1,19 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using SaveTheBill.Free.Model;
+using SaveTheBill.Free.ViewModel;
 using Xamarin.Forms;
 
-namespace SaveTheBill.Free
+namespace SaveTheBill.Free.View
 {
 	public partial class BillDetailPage : ContentPage
 	{
-		private DetailPageViewModel viewModel;
-		private Bill _localBill;
+		private readonly DetailPageViewModel _viewModel;
+		private readonly Bill _localBill;
+        private MediaFile _file;
 
-		public BillDetailPage(Bill bill = null)
+        public BillDetailPage(Bill bill = null)
 		{
 			InitializeComponent();
-			viewModel = new DetailPageViewModel();
+			_viewModel = new DetailPageViewModel();
 			if (bill != null)
 			{
 				_localBill = bill;
@@ -56,7 +61,7 @@ namespace SaveTheBill.Free
 				ScanDate = BuyDateEntry.Date,
 				Additions = DetailEntry.Text
 			};
-			viewModel.Save_OnClicked(bill, _localBill != null);
+			_viewModel.Save_OnClicked(bill, _localBill != null);
 
 			await Navigation.PopAsync(true);
 
@@ -79,7 +84,7 @@ namespace SaveTheBill.Free
 			if (!string.IsNullOrEmpty(AmountEntry.Text))
 			{
 				AmountVaild.IsVisible = false;
-				if (!viewModel.MatchAmmoundRegex(AmountEntry.Text))
+				if (!_viewModel.MatchAmmoundRegex(AmountEntry.Text))
 				{
 					valid = false;
 					AmountVaild.IsVisible = true;
@@ -105,10 +110,39 @@ namespace SaveTheBill.Free
             image.IsVisible = image.Source != null;
         }
 
-        private void AddPhoto_OnClicked(object sender, EventArgs e)
+        private async void AddPhoto_OnClicked(object sender, EventArgs e)
         {
-              
+
+            await CrossMedia.Current.Initialize();
+
+            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            {
+                await DisplayAlert("Fehler", "Kamera nicht verfügbar.", "OK");
+                return;
+            }
+            var res = await ChooseSource();
+            _file = await _viewModel.HandleChoosenSource(res);
+
+            HandleImageStream(_file);
         }
+
+
+	    private void HandleImageStream(MediaFile file)
+	    {
+            ImageEntry.Source = ImageSource.FromStream(() =>
+            {
+                var stream = file.GetStream();
+
+                return stream;
+            });
+        }
+	 
+
+	    private async Task<string> ChooseSource()
+	    {
+            var result =  await DisplayActionSheet("Wählen Sie eine Quelle", "Abbrechen", null, "Kamera", "Gallerie");
+	        return result;
+	    }
 
 
 	}

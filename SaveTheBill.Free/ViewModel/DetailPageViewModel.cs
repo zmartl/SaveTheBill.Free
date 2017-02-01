@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using Realms;
+using SaveTheBill.Free.Model;
 
-namespace SaveTheBill.Free
+namespace SaveTheBill.Free.ViewModel
 {
 	public class DetailPageViewModel
 	{
@@ -49,5 +53,30 @@ namespace SaveTheBill.Free
 
 			return reg.Match(input).Success;
 		}
-	}
+
+        public async Task<MediaFile> HandleChoosenSource(string input)
+        {
+            MediaFile file;
+            if (input.Equals("Gallerie"))
+            {
+                file = await CrossMedia.Current.PickPhotoAsync();
+
+                if (file == null)
+                    return null;
+            }
+            else
+            {
+                file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+                {
+                    Directory = "LocalData",
+                    Name = "bill_" + DateTime.Now + ".jpg"
+                });
+
+                if (file == null)
+                    return null;
+            }
+
+            return file;
+        }
+    }
 }
