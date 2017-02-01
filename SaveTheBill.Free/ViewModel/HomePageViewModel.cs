@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Plugin.Messaging;
 using Realms;
@@ -27,6 +28,14 @@ namespace SaveTheBill.Free.ViewModel
         public void DeleteEntry(Bill entry)
         {
             _realm.Write(() => _realm.Remove(entry));
+        }
+
+        public bool PremiumVersionRequired()
+        {
+            var count = Entries.Count();
+            bool upgradeRequired = count >= 20;
+
+            return upgradeRequired;
         }
 
         public void SendEmail(Bill bill)

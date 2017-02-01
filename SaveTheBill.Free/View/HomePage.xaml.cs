@@ -28,6 +28,14 @@ namespace SaveTheBill.Free.View
 
 		private void Add_OnClicked(object sender, EventArgs e)
 		{
+		    if (_viewModel.PremiumVersionRequired())
+		    {
+		        DisplayAlert("Upgrade erforderlich",
+		            "Sie haben die Anzahl maximaler Belege in der kostenlosen Version erreicht. Bitte kaufen Sie die Vollversion.",
+		            "Ok");
+                return;
+		    }
+
 			var result = (ToolbarItem)sender;
 			if (result != null)
 				Navigation.PushAsync(new BillDetailPage());

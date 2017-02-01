@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Plugin.Media;
@@ -26,9 +27,9 @@ namespace SaveTheBill.Free.ViewModel
 			{
 				var rest = _realm.All<Bill>().AsRealmCollection();
 
-				var count = rest.Count;
+				bill.Id = rest.OrderByDescending(entity => entity.Id).FirstOrDefault().Id + 1;
 
-				bill.Id = count + 1;
+			    
 
 				_realm.Write(() =>
 				{
