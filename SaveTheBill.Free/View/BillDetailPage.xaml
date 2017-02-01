@@ -3,7 +3,6 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     x:Class="SaveTheBill.Free.View.BillDetailPage"
     Title="Quittung">
     <ContentPage.ToolbarItems>
@@ -30,7 +29,7 @@
                         </StackLayout>
                         <StackLayout x:Name="GuaranteeDatePickerStackLayout" Orientation="Vertical">
                             <Label Text="Gültig bis: " />
-                            <DatePicker VerticalOptions="CenterAndExpand" Date="{x:Static sys:DateTime.Now}"
+                            <DatePicker VerticalOptions="CenterAndExpand"
                                         x:Name="GuaranteeDatePicker">
                                 <DatePicker.Format>dd.MM.yyyy</DatePicker.Format>
                             </DatePicker>
@@ -40,8 +39,7 @@
                 <Entry x:Name="LocationEntry" Placeholder="Ort" Keyboard="Chat" HorizontalOptions="FillAndExpand" />
                 <StackLayout VerticalOptions="Start">
                     <Label Text="Kaufdatum: " />
-                    <DatePicker x:Name="BuyDateEntry" VerticalOptions="FillAndExpand"
-                                Date="{x:Static sys:DateTime.Now}">
+                    <DatePicker x:Name="BuyDateEntry" VerticalOptions="FillAndExpand" >
                         <DatePicker.Format>dd.MM.yyyy</DatePicker.Format>
                     </DatePicker>
                 </StackLayout>
@@ -51,6 +49,6 @@
                     <Button Image="photo.png" x:Name="PhotoButton" Clicked="AddPhoto_OnClicked" />
                 </StackLayout>
             </StackLayout>
-        </ScrollView>
+        </ScrollView>    
     </ContentPage.Content>
 </ContentPage>

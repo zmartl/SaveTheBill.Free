@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using HockeyApp.iOS;
 using UIKit;
 
 namespace SaveTheBill.Free.iOS
@@ -14,7 +15,11 @@ namespace SaveTheBill.Free.iOS
 		{
 			global::Xamarin.Forms.Forms.Init();
 
-			LoadApplication(new App());
+            var manager = BITHockeyManager.SharedHockeyManager;
+            manager.Configure("7d9ec1ea174646f9b16b68acf1d06e3d");
+            manager.StartManager();
+
+            LoadApplication(new App());
 
 			return base.FinishedLaunching(app, options);
 		}

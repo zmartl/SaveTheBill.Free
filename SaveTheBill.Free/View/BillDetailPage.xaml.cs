@@ -14,6 +14,7 @@ namespace SaveTheBill.Free.View
 		private readonly DetailPageViewModel _viewModel;
 		private readonly Bill _localBill;
         private MediaFile _file;
+        
 
         public BillDetailPage(Bill bill = null)
 		{
@@ -31,10 +32,11 @@ namespace SaveTheBill.Free.View
 			TitleEntry.Text = _localBill.Name;
 			AmountEntry.Text = _localBill.Amount;
 			LocationEntry.Text = _localBill.Location;
-			//TODO Cannot convert datetime to datetime offset
-			//GuaranteeDatePicker.Date = _localBill.GuaranteeExpireDate;
-			//BuyDateEntry.Date = _localBill.ScanDate;
+		    GuaranteeSwitch.IsToggled = _localBill.HasGuarantee;		
+			GuaranteeDatePicker.Date = _localBill.GuaranteeExpireDate.DateTime;
+			BuyDateEntry.Date = _localBill.ScanDate.DateTime;
 			DetailEntry.Text = _localBill.Additions;
+		    ImageEntry.Source = ImageSource.FromFile(_localBill.ImageSource);
 		}
 
 		private void GuaranteeSwitch_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -52,15 +54,22 @@ namespace SaveTheBill.Free.View
 			if (!IsValid()) return;
 
 			var bill = new Bill
-			{
+			{                
 				Name = TitleEntry.Text,
 				Amount = AmountEntry.Text,
 				HasGuarantee = GuaranteeSwitch.IsToggled,
-				GuaranteeExpireDate = GuaranteeDatePicker.Date,
+				GuaranteeExpireDate = GuaranteeDatePicker.Date.AddDays(1),
 				Location = LocationEntry.Text,
-				ScanDate = BuyDateEntry.Date,
-				Additions = DetailEntry.Text
+				ScanDate = BuyDateEntry.Date.AddDays(1),
+				Additions = DetailEntry.Text,
+                ImageSource = _file.Path
 			};
+
+		    if (_localBill != null)
+		    {
+		        bill.Id = _localBill.Id;
+		    }
+
 			_viewModel.Save_OnClicked(bill, _localBill != null);
 
 			await Navigation.PopAsync(true);
@@ -132,7 +141,6 @@ namespace SaveTheBill.Free.View
             ImageEntry.Source = ImageSource.FromStream(() =>
             {
                 var stream = file.GetStream();
-
                 return stream;
             });
         }

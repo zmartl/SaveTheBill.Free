@@ -27,11 +27,19 @@ namespace SaveTheBill.Free.ViewModel
 			{
 				var rest = _realm.All<Bill>().AsRealmCollection();
 
-				bill.Id = rest.OrderByDescending(entity => entity.Id).FirstOrDefault().Id + 1;
+			    if (rest.Count > 0)
+			    {
 
-			    
+			        bill.Id = rest.OrderByDescending(entity => entity.Id).FirstOrDefault().Id + 1;
+			    }
+			    else
+			    {
+			        bill.Id = 1;
+			    }
 
-				_realm.Write(() =>
+
+
+			    _realm.Write(() =>
 				{
 					_realm.Add(bill);
 				});

@@ -9,20 +9,25 @@
 		<ToolbarItem Icon="add.png" Clicked="Add_OnClicked" />
 	</ContentPage.ToolbarItems>
 	<ContentPage.Content>
-		<ListView ItemsSource="{Binding Entries}" x:Name="EntriesListView" ItemSelected="OnItemSelected">
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<TextCell Text="{Binding Name}" Detail="{Binding Amount}" >
-							<TextCell.ContextActions>
+    <StackLayout Padding="5,10">
+      <!--
+      <Label Text="Keine Scans vorhanden" x:Name="NoScans" HorizontalTextAlignment="Center"/>
+      -->
+      <ListView ItemsSource="{Binding Entries}" x:Name="EntriesListView" ItemSelected="OnItemSelected">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <TextCell Text="{Binding Name}" Detail="{Binding Amount}" >
+              <TextCell.ContextActions>
                 <MenuItem Clicked="Share_OnClicked" CommandParameter="{Binding .}"
                    Text="Teilen" />
-                <MenuItem Text="Löschen" IsDestructive="true" 
-										  Clicked="Delete_OnClicked" 
+                <MenuItem Text="Löschen" IsDestructive="true"
+										  Clicked="Delete_OnClicked"
 									      CommandParameter="{Binding .}" />
-							</TextCell.ContextActions>
-						</TextCell>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+              </TextCell.ContextActions>
+            </TextCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
+    </StackLayout>
 	</ContentPage.Content>
 </ContentPage>
