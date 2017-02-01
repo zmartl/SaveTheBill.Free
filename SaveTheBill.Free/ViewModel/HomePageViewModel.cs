@@ -1,21 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
 using Plugin.Messaging;
 using Realms;
 using SaveTheBill.Free.Model;
 using SaveTheBill.Free.Resources;
-using Xamarin.Forms;
 
 namespace SaveTheBill.Free.ViewModel
 {
     public class HomePageViewModel
     {
-        private const string AuthorName = "Me";
-
         private readonly Realm _realm;
-
-        public IEnumerable<Bill> Entries { get; set; }
 
         public HomePageViewModel()
         {
@@ -23,6 +17,8 @@ namespace SaveTheBill.Free.ViewModel
 
             Entries = _realm.All<Bill>().AsRealmCollection();
         }
+
+        public IEnumerable<Bill> Entries { get; set; }
 
 
         public void DeleteEntry(Bill entry)
@@ -33,7 +29,7 @@ namespace SaveTheBill.Free.ViewModel
         public bool PremiumVersionRequired()
         {
             var count = Entries.Count();
-            bool upgradeRequired = count >= 20;
+            var upgradeRequired = count >= 20;
 
             return upgradeRequired;
         }

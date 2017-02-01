@@ -39,7 +39,7 @@
                 <Entry x:Name="LocationEntry" Placeholder="Ort" Keyboard="Chat" HorizontalOptions="FillAndExpand" />
                 <StackLayout VerticalOptions="Start">
                     <Label Text="Kaufdatum: " />
-                    <DatePicker x:Name="BuyDateEntry" VerticalOptions="FillAndExpand" >
+                    <DatePicker x:Name="BuyDateEntry" VerticalOptions="FillAndExpand">
                         <DatePicker.Format>dd.MM.yyyy</DatePicker.Format>
                     </DatePicker>
                 </StackLayout>
@@ -49,6 +49,6 @@
                     <Button Image="photo.png" x:Name="PhotoButton" Clicked="AddPhoto_OnClicked" />
                 </StackLayout>
             </StackLayout>
-        </ScrollView>    
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

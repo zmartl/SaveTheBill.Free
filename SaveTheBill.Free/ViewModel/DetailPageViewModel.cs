@@ -10,58 +10,46 @@ using SaveTheBill.Free.Model;
 
 namespace SaveTheBill.Free.ViewModel
 {
-	public class DetailPageViewModel
-	{
-		private Realm _realm;
-		public Bill Entry { get; set; }
-		private IEnumerable<Bill> res { get; set; }
+    public class DetailPageViewModel
+    {
+        private readonly Realm _realm;
 
-		public DetailPageViewModel()
-		{
-			_realm = Realm.GetInstance();
-		}
-		 
-		public void Save_OnClicked(Bill bill, bool exist = false)
-		{
-			if (!exist)
-			{
-				var rest = _realm.All<Bill>().AsRealmCollection();
+        public DetailPageViewModel()
+        {
+            _realm = Realm.GetInstance();
+        }
 
-			    if (rest.Count > 0)
-			    {
+        public Bill Entry { get; set; }
+        private IEnumerable<Bill> res { get; set; }
 
-			        bill.Id = rest.OrderByDescending(entity => entity.Id).FirstOrDefault().Id + 1;
-			    }
-			    else
-			    {
-			        bill.Id = 1;
-			    }
+        public void Save_OnClicked(Bill bill, bool exist = false)
+        {
+            if (!exist)
+            {
+                var rest = _realm.All<Bill>().AsRealmCollection();
+
+                if (rest.Count > 0)
+                    bill.Id = rest.OrderByDescending(entity => entity.Id).FirstOrDefault().Id + 1;
+                else
+                    bill.Id = 1;
 
 
+                _realm.Write(() => { _realm.Add(bill); });
+            }
+            else
+            {
+                _realm.Write(() => { _realm.Add(bill, true); });
+            }
+        }
 
-			    _realm.Write(() =>
-				{
-					_realm.Add(bill);
-				});
-			}
-			else
-			{
-				_realm.Write(() =>
-				{
-					_realm.Add(bill, update: true);
-				});
+        public bool MatchAmmoundRegex(string input)
+        {
+            var pattern = "(-?\\d{1,3}(,?\\d{3})*(\\.\\d{2}?))(\\D|$)";
 
-			}
-		}
+            var reg = new Regex(pattern);
 
-		public bool MatchAmmoundRegex(string input)
-		{
-			var pattern = "(-?\\d{1,3}(,?\\d{3})*(\\.\\d{2}?))(\\D|$)";
-
-			var reg = new Regex(pattern);
-
-			return reg.Match(input).Success;
-		}
+            return reg.Match(input).Success;
+        }
 
         public async Task<MediaFile> HandleChoosenSource(string input)
         {
