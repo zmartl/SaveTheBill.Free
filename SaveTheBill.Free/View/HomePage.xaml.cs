@@ -63,7 +63,15 @@ namespace SaveTheBill.Free.View
 
             var item = (Bill) mi.CommandParameter;
 
-            _viewModel.SendEmail(item);
+			try
+			{
+				_viewModel.SendEmail(item);
+			}
+			catch (Exception e)
+			{
+				if (e.Message.Equals("Email unavaiable")) DisplayAlert("Fehler", "Email nicht verfügbar", "Ok");
+			}
+
         }
     }
 }
