@@ -67,9 +67,9 @@ namespace SaveTheBill.Free.View
 			{
 				_viewModel.SendEmail(item);
 			}
-			catch (Exception e)
+			catch (Exception ex)
 			{
-				if (e.Message.Equals("Email unavaiable")) DisplayAlert("Fehler", "Email nicht verfügbar", "Ok");
+				if (ex.Message.Equals("Email unavaiable")) DisplayAlert("Fehler", "Email nicht verfügbar", "Ok");
 			}
 
         }
