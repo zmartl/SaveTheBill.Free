@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -11,9 +11,9 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="5,10">
-            <!--
-      <Label Text="Keine Scans vorhanden" x:Name="NoScans" HorizontalTextAlignment="Center"/>
-      -->
+			<StackLayout Padding="60" x:Name="NullItemsStackLayout" IsVisible="{Binding IsEmpty}">
+ 				<Image Source="NullItemsText.png" />
+			</StackLayout>
             <ListView ItemsSource="{Binding Entries}" x:Name="EntriesListView" ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -13,10 +13,9 @@ namespace SaveTheBill.Free.View
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = _viewModel = new HomePageViewModel();
+			BindingContext = _viewModel = new HomePageViewModel();
             EntriesListView.Footer = string.Empty;
         }
-
 
         private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -28,6 +27,11 @@ namespace SaveTheBill.Free.View
             Navigation.PushAsync(new BillDetailPage((Bill) item));
             listView.SelectedItem = null;
         }
+
+		protected override void OnAppearing()
+		{
+			base.OnAppearing();
+		}
 
         private void Add_OnClicked(object sender, EventArgs e)
         {

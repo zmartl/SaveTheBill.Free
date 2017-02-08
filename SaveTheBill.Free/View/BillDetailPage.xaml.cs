@@ -51,26 +51,35 @@ namespace SaveTheBill.Free.View
 
         private async void Save_OnClicked(object sender, EventArgs e)
         {
-            if (!IsValid()) return;
+			try
+			{
+				if (!IsValid()) return;
 
-            var bill = new Bill
-            {
-                Name = TitleEntry.Text,
-                Amount = AmountEntry.Text,
-                HasGuarantee = GuaranteeSwitch.IsToggled,
-                GuaranteeExpireDate = GuaranteeDatePicker.Date.AddDays(1),
-                Location = LocationEntry.Text,
-                ScanDate = BuyDateEntry.Date.AddDays(1),
-                Additions = DetailEntry.Text,
-                ImageSource = _file.Path
-            };
+				var bill = new Bill
+				{
+					Name = TitleEntry.Text,
+					Amount = AmountEntry.Text,
+					HasGuarantee = GuaranteeSwitch.IsToggled,
+					GuaranteeExpireDate = GuaranteeDatePicker.Date.AddDays(1),
+					Location = LocationEntry.Text,
+					ScanDate = BuyDateEntry.Date.AddDays(1),
+					Additions = DetailEntry.Text
+				};
 
-            if (_localBill != null)
-                bill.Id = _localBill.Id;
+				if (_file != null)
+					bill.ImageSource = _file.Path;
 
-            _viewModel.Save_OnClicked(bill, _localBill != null);
+				if (_localBill != null)
+					bill.Id = _localBill.Id;
+				
+				_viewModel.Save_OnClicked(bill, _localBill != null);
 
-            await Navigation.PopAsync(true);
+				await Navigation.PopAsync(false);
+			}
+			catch (Exception ex)
+			{
+				await DisplayAlert(ex.Message, ex.ToString(), "Ok");
+			}
         }
 
         private bool IsValid()

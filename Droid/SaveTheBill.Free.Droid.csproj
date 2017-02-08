@@ -43,6 +43,8 @@
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+<AndroidSupportedAbis>armeabi-v7a;x86</AndroidSupportedAbis>
+<AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FormsViewGroup, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -182,6 +184,12 @@
     <AndroidResource Include="Resources\drawable-xhdpi\save.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\save.png" />
     <AndroidResource Include="Resources\xml\file_paths.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\NullItemsText.png" />
+    <AndroidResource Include="Resources\drawable\NullItemsText.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\NullItemsText.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\NullItemsText.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\NullItemsText.png" />
+    <AndroidResource Include="Resources\drawable-xxxhdpi\NullItemsText.png" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Plugin.Messaging;
 using Realms;
 using SaveTheBill.Free.Model;
@@ -9,17 +11,47 @@ using SaveTheBill.Free.Resources;
 namespace SaveTheBill.Free.ViewModel
 {
     public class HomePageViewModel
+		: INotifyPropertyChanged
     {
         private readonly Realm _realm;
+		private IDisposable _monitor;
 
         public HomePageViewModel()
         {
             _realm = Realm.GetInstance();
 
             Entries = _realm.All<Bill>().AsRealmCollection();
+			_monitor = _realm.All<Bill>().SubscribeForNotifications((sender, changes, error) =>
+			{
+				OnPropertyChanged(nameof(IsNotEmpty));
+				OnPropertyChanged(nameof(IsEmpty));
+
+			});
+
         }
 
         public IEnumerable<Bill> Entries { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+
+		protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+
+
+		public bool IsNotEmpty
+		{
+			get { return Entries.Any(); }
+		}
+
+		public bool IsEmpty
+		{
+			get { return !IsNotEmpty; }
+		}
+
 
 
         public void DeleteEntry(Bill entry)
