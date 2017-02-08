@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+
 using Realms;
+
 using SaveTheBill.Free.Model;
 
 namespace SaveTheBill.Free.ViewModel
@@ -14,24 +17,23 @@ namespace SaveTheBill.Free.ViewModel
     {
         private readonly Realm _realm;
 
+        public Bill Entry { get; set; }
+        private IEnumerable<Bill> res { get; set; }
+
         public DetailPageViewModel()
         {
             _realm = Realm.GetInstance();
         }
 
-        public Bill Entry { get; set; }
-        private IEnumerable<Bill> res { get; set; }
-
         public void Save_OnClicked(Bill bill, bool exist = false)
         {
             if (!exist)
             {
+                var last = _realm.All<Bill>().OrderByDescending(entity => entity.Id).FirstOrDefault();
 
-				var last = _realm.All<Bill>().OrderByDescending(entity => entity.Id).FirstOrDefault();
+                var id = last == null ? 1 : last.Id + 1;
 
-				var id = last == null ? 1 : last.Id + 1;
-
-				bill.Id = id;
+                bill.Id = id;
 
                 _realm.Write(() => { _realm.Add(bill); });
             }
@@ -62,11 +64,11 @@ namespace SaveTheBill.Free.ViewModel
             }
             else
             {
-                file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    Directory = "LocalData",
-                    Name = "bill_" + DateTime.Now + ".jpg"
-                });
+                file =
+                    await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions {
+                        Directory = "LocalData",
+                        Name = "bill_" + DateTime.Now + ".jpg"
+                    });
 
                 if (file == null)
                     return null;

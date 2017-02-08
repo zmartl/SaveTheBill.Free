@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+
 using SaveTheBill.Free.Model;
 using SaveTheBill.Free.ViewModel;
+
 using Xamarin.Forms;
 
 namespace SaveTheBill.Free.View
@@ -13,7 +15,7 @@ namespace SaveTheBill.Free.View
         public HomePage()
         {
             InitializeComponent();
-			BindingContext = _viewModel = new HomePageViewModel();
+            BindingContext = _viewModel = new HomePageViewModel();
             EntriesListView.Footer = string.Empty;
         }
 
@@ -27,11 +29,6 @@ namespace SaveTheBill.Free.View
             Navigation.PushAsync(new BillDetailPage((Bill) item));
             listView.SelectedItem = null;
         }
-
-		protected override void OnAppearing()
-		{
-			base.OnAppearing();
-		}
 
         private void Add_OnClicked(object sender, EventArgs e)
         {
@@ -67,15 +64,14 @@ namespace SaveTheBill.Free.View
 
             var item = (Bill) mi.CommandParameter;
 
-			try
-			{
-				_viewModel.SendEmail(item);
-			}
-			catch (Exception ex)
-			{
-				if (ex.Message.Equals("Email unavaiable")) DisplayAlert("Fehler", "Email nicht verfügbar", "Ok");
-			}
-
+            try
+            {
+                _viewModel.SendEmail(item);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("Email unavaiable")) DisplayAlert("Fehler", "Email nicht verfügbar", "Ok");
+            }
         }
     }
 }
