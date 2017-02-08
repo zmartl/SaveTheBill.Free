@@ -11,9 +11,9 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Padding="5,10">
-			<StackLayout Padding="60" x:Name="NullItemsStackLayout" IsVisible="{Binding IsEmpty}">
- 				<Image Source="NullItemsText.png" />
-			</StackLayout>
+            <StackLayout Padding="60" IsVisible="{Binding IsEmpty}">
+                <Image Source="NullItemsText.png" />
+            </StackLayout>
             <ListView ItemsSource="{Binding Entries}" x:Name="EntriesListView" ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>

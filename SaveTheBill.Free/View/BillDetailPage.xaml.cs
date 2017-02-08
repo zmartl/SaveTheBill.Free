@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+
 using SaveTheBill.Free.Model;
 using SaveTheBill.Free.ViewModel;
+
 using Xamarin.Forms;
 
 namespace SaveTheBill.Free.View
@@ -51,35 +54,34 @@ namespace SaveTheBill.Free.View
 
         private async void Save_OnClicked(object sender, EventArgs e)
         {
-			try
-			{
-				if (!IsValid()) return;
+            try
+            {
+                if (!IsValid()) return;
 
-				var bill = new Bill
-				{
-					Name = TitleEntry.Text,
-					Amount = AmountEntry.Text,
-					HasGuarantee = GuaranteeSwitch.IsToggled,
-					GuaranteeExpireDate = GuaranteeDatePicker.Date.AddDays(1),
-					Location = LocationEntry.Text,
-					ScanDate = BuyDateEntry.Date.AddDays(1),
-					Additions = DetailEntry.Text
-				};
+                var bill = new Bill {
+                    Name = TitleEntry.Text,
+                    Amount = AmountEntry.Text,
+                    HasGuarantee = GuaranteeSwitch.IsToggled,
+                    GuaranteeExpireDate = GuaranteeDatePicker.Date.AddDays(1),
+                    Location = LocationEntry.Text,
+                    ScanDate = BuyDateEntry.Date.AddDays(1),
+                    Additions = DetailEntry.Text
+                };
 
-				if (_file != null)
-					bill.ImageSource = _file.Path;
+                if (_file != null)
+                    bill.ImageSource = _file.Path;
 
-				if (_localBill != null)
-					bill.Id = _localBill.Id;
-				
-				_viewModel.Save_OnClicked(bill, _localBill != null);
+                if (_localBill != null)
+                    bill.Id = _localBill.Id;
 
-				await Navigation.PopAsync(false);
-			}
-			catch (Exception ex)
-			{
-				await DisplayAlert(ex.Message, ex.ToString(), "Ok");
-			}
+                _viewModel.Save_OnClicked(bill, _localBill != null);
+
+                await Navigation.PopAsync(false);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert(ex.Message, ex.ToString(), "Ok");
+            }
         }
 
         private bool IsValid()
@@ -143,8 +145,7 @@ namespace SaveTheBill.Free.View
 
         private void HandleImageStream(MediaFile file)
         {
-            ImageEntry.Source = ImageSource.FromStream(() =>
-            {
+            ImageEntry.Source = ImageSource.FromStream(() => {
                 var stream = file.GetStream();
                 return stream;
             });

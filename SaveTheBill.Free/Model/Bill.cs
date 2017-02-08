@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Realms;
 
 namespace SaveTheBill.Free.Model
@@ -7,6 +8,7 @@ namespace SaveTheBill.Free.Model
     {
         [PrimaryKey]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public string ImageSource { get; set; }
         public string Amount { get; set; }
