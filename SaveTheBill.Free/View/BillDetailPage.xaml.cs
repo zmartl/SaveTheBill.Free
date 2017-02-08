@@ -36,7 +36,11 @@ namespace SaveTheBill.Free.View
             GuaranteeDatePicker.Date = _localBill.GuaranteeExpireDate.DateTime;
             BuyDateEntry.Date = _localBill.ScanDate.DateTime;
             DetailEntry.Text = _localBill.Additions;
-            ImageEntry.Source = ImageSource.FromFile(_localBill.ImageSource);
+			var imagePath = _localBill.ImageSource;
+			if (imagePath != null)
+			{
+				ImageEntry.Source = ImageSource.FromFile(imagePath);
+			}
         }
 
         private void GuaranteeSwitch_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -68,6 +72,21 @@ namespace SaveTheBill.Free.View
 
 				if (_file != null)
 					bill.ImageSource = _file.Path;
+
+				if (ImageEntry.Source != null)
+				{
+					var source = ImageEntry.Source
+
+					if (source != null)
+					{
+						bill.ImageSource = source;
+					}
+					else
+					{
+						var test = "";
+					}
+
+				}
 
 				if (_localBill != null)
 					bill.Id = _localBill.Id;
@@ -135,9 +154,18 @@ namespace SaveTheBill.Free.View
                 return;
             }
             var res = await ChooseSource();
-            _file = await _viewModel.HandleChoosenSource(res);
+			try
+			{
+				_file = await _viewModel.HandleChoosenSource(res);
 
-            HandleImageStream(_file);
+				if (_file == null) throw new ArgumentNullException();
+
+				HandleImageStream(_file);
+			}
+			catch (Exception ex)
+			{
+				await DisplayAlert("Fehler", "Beim auswählen der Datei ist ein Fehler aufgetreten", "Ok");
+			}
         }
 
 
