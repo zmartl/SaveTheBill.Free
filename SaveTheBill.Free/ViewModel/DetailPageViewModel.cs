@@ -55,24 +55,29 @@ namespace SaveTheBill.Free.ViewModel
         public async Task<MediaFile> HandleChoosenSource(string input)
         {
             MediaFile file;
-            if (input.Equals("Gallerie"))
-            {
-                file = await CrossMedia.Current.PickPhotoAsync();
+			if (input.Equals("Gallerie"))
+			{
+				file = await CrossMedia.Current.PickPhotoAsync();
 
-                if (file == null)
-                    return null;
-            }
-            else
-            {
-                file =
-                    await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions {
-                        Directory = "LocalData",
-                        Name = "bill_" + DateTime.Now + ".jpg"
-                    });
+				if (file == null)
+					return null;
+			}
+			else if (input.Equals("Kamera"))
+			{
+				file =
+					await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+					{
+						Directory = "LocalData",
+						Name = "bill_" + DateTime.Now + ".jpg"
+					});
 
-                if (file == null)
-                    return null;
-            }
+				if (file == null)
+					return null;
+			}
+			else 
+			{
+				file = null;
+			}
 
             return file;
         }
