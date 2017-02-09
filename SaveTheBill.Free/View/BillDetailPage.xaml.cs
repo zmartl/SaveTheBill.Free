@@ -73,25 +73,20 @@ namespace SaveTheBill.Free.View
 					Additions = DetailEntry.Text
 				};
 
-				if (_file != null)
-					bill.ImageSource = _file.Path;
+			    if (_file != null)
+			    {
+			        bill.ImageSource = _file.Path;
+			    }
+			    else if (!string.IsNullOrWhiteSpace(_localBill.ImageSource))
+			    {
+			        bill.ImageSource = _localBill.ImageSource;
+			    }
+			    else
+			    {
+			        bill.ImageSource = string.Empty;
+			    }
 
-				if (ImageEntry.Source != null)
-				{
-					var source = ImageEntry.Source
-
-					if (source != null)
-					{
-						bill.ImageSource = source;
-					}
-					else
-					{
-						var test = "";
-					}
-
-				}
-
-				if (_localBill != null)
+                if (_localBill != null)
 					bill.Id = _localBill.Id;
 				
 				_viewModel.Save_OnClicked(bill, _localBill != null);
