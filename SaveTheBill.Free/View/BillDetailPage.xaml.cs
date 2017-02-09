@@ -48,12 +48,12 @@ namespace SaveTheBill.Free.View
 
         private void GuaranteeSwitch_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (GuaranteeDatePicker != null)
-            {
-                var guaranteeSwitch = (Switch) sender;
+            //if (GuaranteeDatePicker != null)
+            //{
+            //    var guaranteeSwitch = (Switch) sender;
 
-                GuaranteeDatePicker.IsEnabled = guaranteeSwitch.IsToggled;
-            }
+            //    GuaranteeDatePicker.IsEnabled = guaranteeSwitch.IsToggled;
+            //}
         }
 
         private async void Save_OnClicked(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace SaveTheBill.Free.View
 			    {
 			        bill.ImageSource = _file.Path;
 			    }
-			    else if (!string.IsNullOrWhiteSpace(_localBill.ImageSource))
+			    else if (_localBill != null)
 			    {
 			        bill.ImageSource = _localBill.ImageSource;
 			    }
@@ -97,34 +97,6 @@ namespace SaveTheBill.Free.View
 			{
 				await DisplayAlert(ex.Message, ex.ToString(), "Ok");
 			}
-            try
-            {
-                if (!IsValid()) return;
-
-                var bill = new Bill {
-                    Name = TitleEntry.Text,
-                    Amount = AmountEntry.Text,
-                    HasGuarantee = GuaranteeSwitch.IsToggled,
-                    GuaranteeExpireDate = GuaranteeDatePicker.Date.AddDays(1),
-                    Location = LocationEntry.Text,
-                    ScanDate = BuyDateEntry.Date.AddDays(1),
-                    Additions = DetailEntry.Text
-                };
-
-                if (_file != null)
-                    bill.ImageSource = _file.Path;
-
-                if (_localBill != null)
-                    bill.Id = _localBill.Id;
-
-                _viewModel.Save_OnClicked(bill, _localBill != null);
-
-                await Navigation.PopAsync(false);
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert(ex.Message, ex.ToString(), "Ok");
-            }
         }
 
         private bool IsValid()

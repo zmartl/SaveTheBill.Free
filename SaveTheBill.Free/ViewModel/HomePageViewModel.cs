@@ -18,18 +18,17 @@ namespace SaveTheBill.Free.ViewModel
         private readonly Realm _realm;
         private IDisposable _monitor;
 
-        private IEnumerable<Bill> Entries { get; }
-
-        private bool IsEmpty => !Entries.Any();
+		public IEnumerable<Bill> Entries { get; set; }
 
         public HomePageViewModel()
         {
             _realm = Realm.GetInstance();
 
             Entries = _realm.All<Bill>().AsRealmCollection();
-            _monitor =
-                _realm.All<Bill>()
-                    .SubscribeForNotifications((sender, changes, error) => { OnPropertyChanged(nameof(IsEmpty)); });
+            _monitor = _realm.All<Bill>().SubscribeForNotifications((sender, changes, error) => { 
+				OnPropertyChanged(nameof(IsNotEmpty));
+				OnPropertyChanged(nameof(IsEmpty));
+			});
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -91,5 +90,15 @@ namespace SaveTheBill.Free.ViewModel
                 throw new Exception("Email unavaiable");
             }
         }
+
+		public bool IsNotEmpty 
+		{ 
+			get { return Entries.Any(); }
+		}
+
+		public bool IsEmpty
+		{
+			get { return !IsNotEmpty; }
+		}
     }
 }
