@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="SaveTheBill.Free.View.HomePage"
+	xmlns:controls="clr-namespace:MeetupManager.Controls;assembly=SaveTheBill.Free"
     Title="SaveTheBill"
     Icon="icon.png">
     <ContentPage.ToolbarItems>
@@ -30,5 +31,13 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
+        <Grid RowSpacing="0">
+      <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <ListView Grid.Row="0"/>
+      <controls:AdView Grid.Row="1"/>
+  </Grid>
     </ContentPage.Content>
 </ContentPage>

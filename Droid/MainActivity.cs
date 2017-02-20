@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.Gms.Ads;
 using Android.OS;
 using HockeyApp.Android;
 using Plugin.Permissions;
@@ -16,6 +17,8 @@ namespace SaveTheBill.Free.Droid
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+
+			MobileAds.Initialize(ApplicationContext, "ca-app-pub-2913878865891583~2827092756");
 
             base.OnCreate(bundle);
 
